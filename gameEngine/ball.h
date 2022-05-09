@@ -3,7 +3,7 @@
 #include "GameObject.h"
 using namespace std;
 
-const int ENTER=13, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77;
+const int ENTER=13, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77, SPACE = 32;
 
 class ball
 {

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <time.h>
 #include <cstdlib>
+#include <windows.h>
 gameEngine::gameEngine(int width, int height, int SIZE_OF_ARRAY)
 {
     countPlay =0;
@@ -35,15 +36,21 @@ gameEngine::~gameEngine()
 {
 }
 
-Coordinate gameEngine::getChange(consoleRenderer* renderer)
+Coordinate gameEngine::getChange(SDLRender* renderer,int SIZE_OF_ARRAY)
 {
     char getKey;
     int changeY = 1;
     int changeX = -1;
     Coordinate ballPosition = Ball->getPosition();
+    if ( ballPosition.x == 1 && ballPosition.y == SIZE_OF_ARRAY-1) {changeX = -1; changeY = 1;}
+    if (ballPosition.x == 1) changeX = 1;
+    if (ballPosition.y == SIZE_OF_ARRAY -1) changeY = -1;
     Coordinate pick(ballPosition.x + changeX, ballPosition.y + changeY);
-    renderer->drawLine(arr, pick.x, pick.y);
-    renderer->render (arr, speed, countPlay);
+    if (arr->getCell(ballPosition.x + changeX , ballPosition.y + changeY) == 'w'  ||
+        arr->getCell(ballPosition.x + changeX , ballPosition.y + changeY) == 'O'
+        ) changeY --;
+    drawLine(renderer, pick.x, pick.y);
+    display(renderer);
     while (getKey != ENTER)
     {
         getKey =getch();
@@ -128,22 +135,18 @@ bool gameEngine::checkWin()
     return false;
 }
 
-void gameEngine::display(consoleRenderer* renderer)
+void gameEngine::display(SDLRender* renderer)
 {
     renderer->render(arr, speed, countPlay);
 }
 
-void gameEngine::setSpeed()
+void gameEngine::drawLine(SDLRender* renderer,int& x, int& y)
 {
-    cout<<"Speed of the ball : (in range 1->7)";
-    cin>>speed;
+    Coordinate ballPosition = Ball->getPosition();
+    renderer->drawLine(arr,ballPosition.x, ballPosition.y ,x, y);
 }
-
-void gameEngine::drawLine(consoleRenderer* renderer,int& x, int& y)
+void gameEngine::eraseLine(SDLRender* renderer, int& x, int& y)
 {
-    renderer->drawLine(arr, x, y);
-}
-void gameEngine::eraseLine(consoleRenderer* renderer, int& x, int& y)
-{
-    renderer->eraseLine(arr, x, y);
+    Coordinate ballPosition = Ball->getPosition();
+    renderer->eraseLine(arr,ballPosition.x, ballPosition.y ,x, y);
 }

@@ -1,6 +1,9 @@
 #pragma
 #include "ball.h"
-#include "../renderer/consoleRenderer.h"
+#include "../renderer/SDLRender.h"
+//#include "../renderer/consoleRenderer.h"
+
+
 class gameEngine
 {
 private:
@@ -13,14 +16,14 @@ public:
     int speed =0;
     gameEngine(/* args */){};
     gameEngine(int width, int height, int SIZE_OF_ARRAY);
-    Coordinate getChange(consoleRenderer* render);
+    Coordinate getChange(SDLRender* render, int SIZE_OF_ARRAY);
     bool stepOnWall(const Coordinate& position, const Coordinate& change);
     bool stepOverWall(const Coordinate& position, const Coordinate& change);
     bool checkWin();
     void move (Coordinate& change );
-    void display(consoleRenderer* render);
+    void display(SDLRender* render);
     void setSpeed();
-    void eraseLine(consoleRenderer* renderer, int& x, int& y);
-    void drawLine(consoleRenderer* renderer, int& x, int& y);
+    void eraseLine(SDLRender* renderer, int& x, int& y);
+    void drawLine(SDLRender* renderer, int& x, int& y);
     ~gameEngine();
 };
